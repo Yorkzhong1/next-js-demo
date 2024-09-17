@@ -13,12 +13,15 @@ bun dev
 ```
 
 ##本程序说明：
-这是一个简单的程序，但是有前端和后端。其中前端主要是在src/app/page.js中体现，是一个简单的现实和删除的界面。
-后端则由两部分组成：
--根目录下的users.json作为数据库
-- pages/api/ 下有三个api，分别对应了：查询用户、创建用户、删除用户，供前端与users.json交互 
+这是一个简单的程序，包括有前端和后端。
 
+前端：
+- 主要是在src/app/page.js中体现，是一个简单的现实和删除的界面。
 
+后端：
+- mongoDB作为数据库
+- pages/api/users.js作为api，通过switch 的方式同时支持了查询、创建、删除用户，供前端与mongoDB交互 （原来为：pages/api/ 下有三个api，分别对应了：查询用户、创建用户、删除用户，供前端与users.json交互，现已修改了一个users.js文件同时处理三种api。）
+ 
 
 ##Pages Router 和 App Router 的共存
 
