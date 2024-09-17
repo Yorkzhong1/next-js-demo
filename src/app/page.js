@@ -88,7 +88,7 @@ export default function UsersPage() {
         {users.length > 0 ? (
           users.map((user) => (
             <li key={user._id} className={styles.userItem}>
-              userId: {user._id}, userName: {user.name}
+              {user.name}
               <button
                 onClick={() => handleDeleteUser(user._id)}
                 className={styles.deleteButton}
