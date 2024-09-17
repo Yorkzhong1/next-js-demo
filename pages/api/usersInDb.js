@@ -47,41 +47,7 @@ async function handler(req, res) {
         await client.close();
       }
       break;
-    
-    case 'POST':
-      try {
-          console.log('creating user')
-          // 连接到 MongoDB
-          await client.connect();
-          const db = client.db(dbName);
-          const collection = db.collection(collectionName);
-  
-          // 获取请求体中的数据
-          const { name } = req.body;
-  
-          if (!name) {
-            return res.status(400).json({ error: 'Name is required' });
-          }
-  
-          // 创建新用户对象
-          const newUser = { name, createdAt: new Date() };
-  
-          // 将新用户插入到 MongoDB 集合中
-          const result = await collection.insertOne(newUser);   
-          
-  
-           // 返回创建成功的响应
-           res.status(201).json({ message: 'User created', user: { ...newUser, _id: result.insertedId } });
-          } catch (error) {
-            // 错误处理
-            console.error('Failed to create user:', error);
-            res.status(500).json({ error: 'Failed to create user' });
-          } finally {
-            // 关闭 MongoDB 连接
-            await client.close();
-          }
-        break; 
-      
+
     case 'DELETE':
       try {
         // 连接到 MongoDB

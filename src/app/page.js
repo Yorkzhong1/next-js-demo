@@ -39,7 +39,7 @@ export default function UsersPage() {
     setError('');
 
     try {
-      const response = await axios.post('/api/users/create', {
+      const response = await axios.post('/api/users', {
         name: newUserName,
       });
 
@@ -64,9 +64,11 @@ export default function UsersPage() {
     setError('');
   
     try {
-      await axios.delete(`/api/users/${id}`);
-      // 从列表中移除被删除的用户
-      setUsers((prevUsers) => prevUsers.filter(user => user.id !== id));
+      await axios.delete('/api/users', { data: { id } });
+      // Refetch users after deleting
+      const response = await axios.get('/api/users');
+      setUsers(response.data.users);
+      setError('');
     } catch (error) {
       console.error('Failed to delete user:', error);
       setError('Failed to delete user');
