@@ -1,6 +1,8 @@
 "use client"
 // pages/page.js
+// pages/page.js
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import styles from './page.module.css'; // 引入 CSS 模块
 
 export default function UsersPage() {
@@ -12,11 +14,11 @@ export default function UsersPage() {
   // 获取用户列表的函数
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/users');
-      const data = await response.json();
-      setUsers(data.users); // 更新用户列表
+      const response = await axios.get('/api/users');
+      setUsers(response.data.users); // 更新用户列表
     } catch (error) {
       console.error('Failed to fetch users:', error);
+      setError('Failed to fetch users');
     }
   };
 
@@ -37,26 +39,18 @@ export default function UsersPage() {
     setError('');
 
     try {
-      const response = await fetch('/api/users/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: newUserName }),
+      const response = await axios.post('/api/users/create', {
+        name: newUserName,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setUsers((prevUsers) => [...prevUsers, data.user]); // 添加新用户到列表
-        setNewUserName(''); // 清空输入框
-      } else {
-        const errorData = await response.json();
-        setError(errorData.error || 'Failed to add user');
-      }
+      setUsers((prevUsers) => [...prevUsers, response.data.user]); // 添加新用户到列表
+      setNewUserName(''); // 清空输入框
     } catch (error) {
+      console.error('Failed to add user:', error);
       setError('Failed to add user');
     } finally {
       setLoading(false);
+      
     }
   };
 
@@ -65,26 +59,21 @@ export default function UsersPage() {
     if (!confirm('Are you sure you want to delete this user?')) {
       return;
     }
-
+  
     setLoading(true);
     setError('');
-
+  
     try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        // 从列表中移除被删除的用户
-        setUsers((prevUsers) => prevUsers.filter(user => user.id !== id));
-      } else {
-        const errorData = await response.json();
-        setError(errorData.error || 'Failed to delete user');
-      }
+      await axios.delete(`/api/users/${id}`);
+      // 从列表中移除被删除的用户
+      setUsers((prevUsers) => prevUsers.filter(user => user.id !== id));
     } catch (error) {
+      console.error('Failed to delete user:', error);
       setError('Failed to delete user');
     } finally {
-      setLoading(false);
+      
+      setLoading(false); // 确保 loading 状态在操作完成后被重置
+      console.log('setLoadingfalse',loading)
     }
   };
 
