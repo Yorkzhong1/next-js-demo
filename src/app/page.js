@@ -83,6 +83,20 @@ export default function UsersPage() {
 
   return (
     <div className={styles.container}>
+      <h2 className={styles.addUserTitle}>Add New User</h2>
+      <form onSubmit={handleAddUser} className={styles.addUserForm}>
+        <input
+          type="text"
+          value={newUserName}
+          onChange={(e) => setNewUserName(e.target.value)}
+          placeholder="Enter user name"
+          className={styles.input}
+          disabled={loading}
+        />
+        <button type="submit" className={styles.submitButton} disabled={loading}>
+          {loading ? 'Adding...' : 'Add User'}
+        </button>
+      </form>
       <h1 className={styles.title}>User List</h1>
       <ul className={styles.userList}>
         {users.length > 0 ? (
@@ -103,20 +117,7 @@ export default function UsersPage() {
         )}
       </ul>
 
-      <h2 className={styles.addUserTitle}>Add New User</h2>
-      <form onSubmit={handleAddUser} className={styles.addUserForm}>
-        <input
-          type="text"
-          value={newUserName}
-          onChange={(e) => setNewUserName(e.target.value)}
-          placeholder="Enter user name"
-          className={styles.input}
-          disabled={loading}
-        />
-        <button type="submit" className={styles.submitButton} disabled={loading}>
-          {loading ? 'Adding...' : 'Add User'}
-        </button>
-      </form>
+
 
       {error && <p className={styles.error}>{error}</p>}
     </div>
