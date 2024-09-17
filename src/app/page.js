@@ -11,6 +11,7 @@ export default function UsersPage() {
   const [error, setError] = useState(''); // 错误信息
   const [addLoading, setAddLoading] = useState(false); // 加载状态
   const [deleteLoading, setDeleteLoading] = useState(false); // 加载状态
+  const [deletingUserId, setDeletingUserId] = useState(null); // 正在删除的用户 ID
 
   // 获取用户列表的函数
   const fetchUsers = async () => {
@@ -64,6 +65,7 @@ export default function UsersPage() {
     console.log('id',id)
   
     setDeleteLoading(true);
+    setDeletingUserId(id); // 设置正在删除的用户 ID
     setError('');
   
     try {
@@ -106,9 +108,9 @@ export default function UsersPage() {
               <button
                 onClick={() => handleDeleteUser(user._id)}
                 className={styles.deleteButton}
-                disabled={deleteLoading}
+                disabled={deleteLoading && deletingUserId !== user._id}
               >
-                {deleteLoading ? 'Deleting...' : 'Delete'}
+                {deletingUserId === user._id ?  'Deleting...' : 'Delete'}
               </button>
             </li>
           ))
