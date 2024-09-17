@@ -14,23 +14,11 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Pages Router 和 App Router 的共存
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+App Router 使用 /src/app 目录，推荐用于构建现代的文件系统路由以及全新的 React Server Components 功能。在 Next.js 14 引入的 App Router（基于 /src/app 目录的结构）中，API 路由的导出方式有所改变。对于 API 处理函数，你需要使用命名导出（named export）而不是默认导出。对于每个 HTTP 方法（如 GET、POST 等），你需要明确地导出对应的处理函数。
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pages Router 使用 /pages 目录，沿用的是经典的 Next.js 路由和 API 文件方式。
+你可以同时使用这两种方式，App Router 和 Pages Router 的路由不会冲突。
+如果你想继续使用传统的 API 方式，确保你的 API 文件位于 pages/api/ 目录下。这样你就能按照原有的方式导出默认处理函数，并处理请求。
