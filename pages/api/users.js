@@ -1,6 +1,6 @@
 // pages/api/users/create.js
 
-import { MongoClient,ServerApiVersion } from 'mongodb';
+import { MongoClient,ObjectId ,ServerApiVersion} from 'mongodb';
 import dotenv from 'dotenv';
 // const { MongoClient, ServerApiVersion } = require('mongodb');
 
@@ -8,7 +8,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 
-const uri = "mongodb+srv://yorkzhong:1234@cluster0.u4slkcs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const uri = "mongodb+srv://yorkzhong:1234@cluster0.u4slkcs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGODB_URI;
 
 // MongoDB 连接设置
 const client = new MongoClient(uri, {
@@ -50,7 +51,7 @@ async function handler(req, res) {
     
     case 'POST':
       try {
-          console.log('creating user')
+ 
           // 连接到 MongoDB
           await client.connect();
           const db = client.db(dbName);
@@ -92,13 +93,14 @@ async function handler(req, res) {
 
         // 获取请求体中的数据
         const { id } = req.body;
+        console.log('id',id)
 
         if (!id) {
           return res.status(400).json({ error: 'ID is required' });
         }
         console.log('already connected to DB')
         // 删除用户
-        const result = await collection.deleteOne({ _id: new MongoClient.ObjectId(id) });
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
         console.log('deleted')
         

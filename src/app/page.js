@@ -16,6 +16,7 @@ export default function UsersPage() {
     try {
       const response = await axios.get('/api/users');
       setUsers(response.data.users); // 更新用户列表
+      // console.log('users:',response.data.users)
     } catch (error) {
       console.error('Failed to fetch users:', error);
       setError('Failed to fetch users');
@@ -59,6 +60,7 @@ export default function UsersPage() {
     if (!confirm('Are you sure you want to delete this user?')) {
       return;
     }
+    console.log('id',id)
   
     setLoading(true);
     setError('');
@@ -85,10 +87,10 @@ export default function UsersPage() {
       <ul className={styles.userList}>
         {users.length > 0 ? (
           users.map((user) => (
-            <li key={user.id} className={styles.userItem}>
-              {user.id}: {user.name}
+            <li key={user._id} className={styles.userItem}>
+              userId: {user._id}, userName: {user.name}
               <button
-                onClick={() => handleDeleteUser(user.id)}
+                onClick={() => handleDeleteUser(user._id)}
                 className={styles.deleteButton}
                 disabled={loading}
               >
