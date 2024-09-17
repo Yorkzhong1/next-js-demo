@@ -9,6 +9,7 @@ export default function UsersPage() {
   const [users, setUsers] = useState([]); // 保存用户列表
   const [newUserName, setNewUserName] = useState(''); // 保存新用户的名字
   const [error, setError] = useState(''); // 错误信息
+  const [loading, setLoading] = useState(false); // 加载状态
   const [addLoading, setAddLoading] = useState(false); // 加载状态
   const [deleteLoading, setDeleteLoading] = useState(false); // 加载状态
   const [deletingUserId, setDeletingUserId] = useState(null); // 正在删除的用户 ID
@@ -16,8 +17,10 @@ export default function UsersPage() {
   // 获取用户列表的函数
   const fetchUsers = async () => {
     try {
+      setLoading(true)
       const response = await axios.get('/api/users');
       setUsers(response.data.users); // 更新用户列表
+      setLoading(false)
       // console.log('users:',response.data.users)
     } catch (error) {
       console.error('Failed to fetch users:', error);
@@ -100,6 +103,7 @@ export default function UsersPage() {
         </button>
       </form>
       <h2 className={styles.title} id='userlist'>User List</h2>
+      
       <ul className={styles.userList}>
         {users.length > 0 ? (
           users.map((user) => (
@@ -115,7 +119,7 @@ export default function UsersPage() {
             </li>
           ))
         ) : (
-          <p>No users found</p>
+          <p className={styles.messages}>Loading...</p>
         )}
       </ul>
 
