@@ -9,7 +9,8 @@ export default function UsersPage() {
   const [users, setUsers] = useState([]); // 保存用户列表
   const [newUserName, setNewUserName] = useState(''); // 保存新用户的名字
   const [error, setError] = useState(''); // 错误信息
-  const [loading, setLoading] = useState(false); // 加载状态
+  const [addLoading, setAddLoading] = useState(false); // 加载状态
+  const [deleteLoading, setDeleteLoading] = useState(false); // 加载状态
 
   // 获取用户列表的函数
   const fetchUsers = async () => {
@@ -36,7 +37,7 @@ export default function UsersPage() {
       return;
     }
 
-    setLoading(true);
+    setAddLoading(true);
     setError('');
 
     try {
@@ -50,7 +51,7 @@ export default function UsersPage() {
       console.error('Failed to add user:', error);
       setError('Failed to add user');
     } finally {
-      setLoading(false);
+      setAddLoading(false);
       
     }
   };
@@ -62,7 +63,7 @@ export default function UsersPage() {
     }
     console.log('id',id)
   
-    setLoading(true);
+    setDeleteLoading(true);
     setError('');
   
     try {
@@ -76,8 +77,7 @@ export default function UsersPage() {
       setError('Failed to delete user');
     } finally {
       
-      setLoading(false); // 确保 loading 状态在操作完成后被重置
-      console.log('setLoadingfalse',loading)
+      setDeleteLoading(false); // 确保 loading 状态在操作完成后被重置
     }
   };
 
@@ -91,13 +91,13 @@ export default function UsersPage() {
           onChange={(e) => setNewUserName(e.target.value)}
           placeholder="Enter user name"
           className={styles.input}
-          disabled={loading}
+          disabled={addLoading}
         />
-        <button type="submit" className={styles.submitButton} disabled={loading}>
-          {loading ? 'Adding...' : 'Add User'}
+        <button type="submit" className={styles.submitButton} disabled={addLoading}>
+          {addLoading ? 'Adding...' : 'Add User'}
         </button>
       </form>
-      <h1 className={styles.title}>User List</h1>
+      <h2 className={styles.title} id='userlist'>User List</h2>
       <ul className={styles.userList}>
         {users.length > 0 ? (
           users.map((user) => (
@@ -106,9 +106,9 @@ export default function UsersPage() {
               <button
                 onClick={() => handleDeleteUser(user._id)}
                 className={styles.deleteButton}
-                disabled={loading}
+                disabled={deleteLoading}
               >
-                {loading ? 'Deleting...' : 'Delete'}
+                {deleteLoading ? 'Deleting...' : 'Delete'}
               </button>
             </li>
           ))
