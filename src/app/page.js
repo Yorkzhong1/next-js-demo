@@ -45,6 +45,7 @@ export default function UsersPage() {
     setError('');
 
     try {
+    
       const response = await axios.post('/api/users', {
         name: newUserName,
       });
